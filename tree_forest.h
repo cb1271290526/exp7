@@ -147,6 +147,8 @@ bool Parent_tree_from_filedata(pTree& pT)  //ÎÄ±¾Êı¾İÂ¼Èë£¬¹¹½¨Ë«Ç×±íÊ¾µÄÊ÷£¨É­Á
 		{
 			Nf = line[index - 1];
 			Ns = line[index + 1];
+			cout << Nf << " ";
+			cout << Ns << endl;
 		}
 
 		for (np = 0; np < pT.n; np++)
@@ -313,7 +315,7 @@ void postTravel(csNode*& T)
 	{
 		postTravel(T->firstChild);
 		cout << T->data << " ";
-		preTravel(T->nextSibling);
+		postTravel(T->nextSibling);
 	}
 }
 
@@ -418,11 +420,13 @@ void levelTravel(csNode*& T)
 			Queue_enter(Qp, cp);
 			cp = cp->nextSibling;
 		}
+		if (Queue_empty(Qp))
+			break;
 		Queue_front(Qp, cp);
 		Queue_out(Qp);
 		cout << cp->data << " ";
 		cp = cp->firstChild;
-	}while (!Queue_empty(Qp));
+	}while (true);
 	Queue_delete(Qp);
 }
 
@@ -541,15 +545,14 @@ void forest_general(csNode*& T, int level)  //level¸ø³õÖµ1£¬´ú±ílevel²ã½áµã
 		{
 			cout << "(";
 			forest_general(T->firstChild, level + 1);
-			cout << ")";
 		}
 		if (T->nextSibling != NULL)  //Êä³öÍ¬²ã½áµãÉ­ÁÖ
 		{
 			cout << ", ";
 			forest_general(T->nextSibling, level);
-			if (level != 1)  //·ÇÒ»²ã½áµãÊä³öÓÒÀ¨ºÅ
-				cout << ")";
 		}
+		if (T->nextSibling == NULL && level != 1)  //·ÇÒ»²ã½áµãÊä³öÓÒÀ¨ºÅ
+			cout << ")";
 	}
 }
 
