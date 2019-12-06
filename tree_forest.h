@@ -58,9 +58,7 @@ void skip_line(ifstream& file, string& line)
 void Parent_delspace(string& str)
 {
 	if (str.empty())
-	{
 		return ;
-	}
     str.erase(0, str.find_first_not_of(" "));
 }
 
@@ -84,7 +82,8 @@ bool Parent_tree_from_filedata(pTree& pT)  //ÎÄ±¾Êı¾İÂ¼Èë£¬¹¹½¨Ë«Ç×±íÊ¾µÄÊ÷£¨É­Á
 	}
 	Parent_tree_initial(pT);
 
-	skip_line(file, line);
+	skip_line(file, line);  //Ìø¹ı
+
 	//¼ìÑéÎÄ±¾¸ñÊ½
 	while(true)
 	{

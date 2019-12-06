@@ -30,11 +30,9 @@ int main(void)
 			{
 				while (true)
 				{
-					bool tag = false;
-					tag = Parent_tree_from_filedata(pT);  //创建双亲表示的树（森林）
-					if (tag == false)
+					//创建双亲表示的树（森林）
+					if (Parent_tree_from_filedata(pT) == false)
 						break;
-
 					createCsTree(T, pT);  //创建二叉链表表示的树（森林）
 					Travel(T, 1);  //先序遍历森林
 					Travel(T, 2);  //后序
@@ -50,9 +48,8 @@ int main(void)
 			{
 				while (true)
 				{
-					bool tag = false;
-					tag = Parent_tree_from_filedata(pT);  //创建双亲表示的树（森林）
-					if (tag == false)
+					//创建双亲表示的树（森林）
+					if (Parent_tree_from_filedata(pT) == false)
 						break;
 					createCsTree(T, pT);  //创建二叉链表表示的树（森林）
 
@@ -69,9 +66,8 @@ int main(void)
 			{
 				while (true)
 				{
-					bool tag = false;
-					tag = Parent_tree_from_filedata(pT);  //创建双亲表示的树（森林）
-					if (tag == false)
+					//创建双亲表示的树（森林）
+					if (Parent_tree_from_filedata(pT) == false)
 						break;
 					createCsTree(T, pT);  //创建二叉链表表示的树（森林）
 
@@ -89,9 +85,8 @@ int main(void)
 			{
 				while (true)
 				{
-					bool tag = false;
-					tag = Parent_tree_from_filedata(pT);  //创建双亲表示的树（森林）
-					if (tag == false)
+					//创建双亲表示的树（森林）
+					if (Parent_tree_from_filedata(pT) == false)
 						break;
 					createCsTree(T, pT);  //创建二叉链表表示的树（森林）
 
@@ -109,9 +104,8 @@ int main(void)
 			{
 				while (true)
 				{
-					bool tag = false;
-					tag = Parent_tree_from_filedata(pT);  //创建双亲表示的树（森林）
-					if (tag == false)
+					//创建双亲表示的树（森林）
+					if (Parent_tree_from_filedata(pT) == false)
 						break;
 					createCsTree(T, pT);  //创建二叉链表表示的树（森林）
 
@@ -129,9 +123,8 @@ int main(void)
 			{
 				while (true)
 				{
-					bool tag = false;
-					tag = Parent_tree_from_filedata(pT);  //创建双亲表示的树（森林）
-					if (tag == false)
+					//创建双亲表示的树（森林）
+					if (Parent_tree_from_filedata(pT) == false)
 						break;
 					createCsTree(T, pT);  //创建二叉链表表示的树（森林）
 
@@ -149,9 +142,8 @@ int main(void)
 			{
 				while (true)
 				{
-					bool tag = false;
-					tag = Parent_tree_from_filedata(pT);  //创建双亲表示的树（森林）
-					if (tag == false)
+					//创建双亲表示的树（森林）
+					if (Parent_tree_from_filedata(pT) == false)
 						break;
 					createCsTree(T, pT);  //创建二叉链表表示的树（森林）
 
