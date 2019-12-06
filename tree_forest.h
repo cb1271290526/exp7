@@ -218,7 +218,7 @@ int forest_count_node(csNode*& T);				//求森林结点数
 int forest_count_leaf(csNode*& T);				//求森林叶子数
 int forest_dot(csNode*& T, int tag);			//求森林的度
 void forest_node_level(csNode*& T, int level);	//先序输出结点值及其层次号
-void forest_general(csNode*& T, int level);		//输出广义表表示的树
+void forest_general(csNode*& T);				//输出广义表表示的树
 /*-----------------------------------------------------------------------------------------------------*/
 
 void csinitial(csNode*& T)
@@ -535,23 +535,26 @@ void forest_node_level(csNode*& T, int level)
 }
 
 //输出广义表表示的树
-void forest_general(csNode*& T, int level)  //level给初值1，代表level层结点
+void forest_general(csNode*& T)
 {
 	if (T != NULL)
 	{
+		if (T->firstChild != NULL)
+			cout << "(";
 		cout << T->data;
 		if (T->firstChild != NULL)  //输出子森林结点
 		{
-			cout << "(";
-			forest_general(T->firstChild, level + 1);
+			cout << ",(";
+			forest_general(T->firstChild);
+			cout << ")";
 		}
+		if (T->firstChild != NULL)
+			cout << ")";
 		if (T->nextSibling != NULL)  //输出同层结点森林
 		{
-			cout << ", ";
-			forest_general(T->nextSibling, level);
+			cout << ",";
+			forest_general(T->nextSibling);
 		}
-		if (T->nextSibling == NULL && level != 1)  //非一层结点输出右括号
-			cout << ")";
 	}
 }
 

@@ -148,7 +148,7 @@ int main(void)
 					createCsTree(T, pT);  //创建二叉链表表示的树（森林）
 
 					cout << "广义表表示的树" << endl;
-					forest_general(T, 1); //输出广义表表示的树
+					forest_general(T); //输出广义表表示的树
 					cout << endl;
 
 					forest_delete(T);  //删除森林
