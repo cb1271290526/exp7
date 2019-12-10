@@ -413,7 +413,7 @@ void levelTravel(csNode*& T)
 	Qpointer* Qp;
 	Queue_initial(Qp);
 	cp = T;
-	do
+	while (true)
 	{
 		while (cp != NULL)
 		{
@@ -426,7 +426,7 @@ void levelTravel(csNode*& T)
 		Queue_out(Qp);
 		cout << cp->data << " ";
 		cp = cp->firstChild;
-	}while (true);
+	}
 	Queue_delete(Qp);
 }
 
