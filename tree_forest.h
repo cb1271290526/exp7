@@ -218,7 +218,8 @@ int forest_count_node(csNode*& T);				//求森林结点数
 int forest_count_leaf(csNode*& T);				//求森林叶子数
 int forest_dot(csNode*& T, int tag);			//求森林的度
 void forest_node_level(csNode*& T, int level);	//先序输出结点值及其层次号
-void forest_general(csNode*& T);				//输出广义表表示的树
+bool judge(csNode*& T);							//判断结点是否同时具有子结点和兄弟结点
+void forest_general(csNode*& T, int tag);		//输出广义表表示的树
 /*-----------------------------------------------------------------------------------------------------*/
 
 void csinitial(csNode*& T)
@@ -497,8 +498,8 @@ int forest_count_leaf(csNode*& T)
 	int leaf_num = 0;
 	if (T != NULL)
 	{
-		leaf_num = forest_count_leaf(T->firstChild);  //算出森林的叶子数
-		leaf_num = leaf_num + forest_count_leaf(T->nextSibling);  //加上同层结点森林叶子数
+		leaf_num = forest_count_leaf(T->firstChild);  //算出子树的叶子数
+		leaf_num = leaf_num + forest_count_leaf(T->nextSibling);  //加上同层结点树叶子数
 		if (T->firstChild == NULL)  //无孩子结点，叶子数+1
 			leaf_num++;
 	}
@@ -506,7 +507,7 @@ int forest_count_leaf(csNode*& T)
 }
 
 //求森林的度
-int forest_dot(csNode*& T, int tag)
+int forest_dot(csNode*& T, int tag)  //tag初始值为0，当tag为0时代表当前结点是根结点
 {
 	int dot = 0;
 	if (T != NULL)
@@ -517,7 +518,7 @@ int forest_dot(csNode*& T, int tag)
 		}
 		if (T->nextSibling != NULL)
 		{
-			dot = dot + forest_dot(T->nextSibling, tag) + tag;
+			dot = dot + forest_dot(T->nextSibling, tag) + tag;  //子树度数加上兄弟结点树度数
 		}
 	}
 	return dot;
@@ -534,27 +535,42 @@ void forest_node_level(csNode*& T, int level)
 	}
 }
 
-//输出广义表表示的树
-void forest_general(csNode*& T)
+//判断结点是否同时具有子结点和兄弟结点
+bool judge(csNode*& T)
 {
 	if (T != NULL)
 	{
-		if (T->firstChild != NULL)
+		if (T->firstChild != NULL && T->nextSibling != NULL)
+			return true;
+	}
+	return false;
+}
+
+//广义树 
+void forest_general(csNode*& T, int tag)  //tag给初值1，0代表第一个子结点，1代表兄弟结点
+{
+	if (T != NULL)
+	{
+		if (T->firstChild != NULL || tag == 0)  //结点有子结点或结点为第一个子结点则将其打包
 			cout << "(";
 		cout << T->data;
 		if (T->firstChild != NULL)  //输出子森林结点
 		{
-			cout << ",(";
-			forest_general(T->firstChild);
-			cout << ")";
-		}
-		if (T->firstChild != NULL)
-			cout << ")";
+			cout << ",";
+			if (judge(T->firstChild) == true)  //若是第一个子结点有子结点和兄弟结点则该结点和兄弟结点要打包
+				cout << "(";
+			forest_general(T->firstChild, 0);
+			if (judge(T->firstChild) == true)  //第一个子结点有子结点和兄弟结点需要的“）”
+				cout << ")";
+			cout << ")";  //有子结点必要的“）”
+		}	
 		if (T->nextSibling != NULL)  //输出同层结点森林
 		{
-			cout << ",";
-			forest_general(T->nextSibling);
+			cout << ", ";
+			forest_general(T->nextSibling, 1);
 		}
+		if (T->firstChild == NULL && tag == 0)  //打包第一个无子的子结点及其兄弟结点
+			cout << ")";
 	}
 }
 
