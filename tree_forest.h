@@ -468,13 +468,10 @@ int forest_high(csNode*& T)
 	int h2 = 0;
 	if (T != NULL)
 	{
-		h1 = forest_high(T->firstChild);
-		if(T->firstChild != NULL)
-			h2 = forest_high(T->firstChild->nextSibling);
-		if (h1 > h2)
-			return h1 + 1;
-		else
-			return h2 + 1;
+		h1 = forest_high(T->firstChild) + 1;
+		h2 = forest_high(T->nextSibling);
+		if (h1 < h2)
+			h1 = h2;
 	}
 	return h1;
 }
