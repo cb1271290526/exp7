@@ -10,63 +10,63 @@ constexpr auto MAXLEN = 100;
 typedef char datatype;
 using namespace std;
 
-/*åŒäº²è¡¨ç¤ºçš„æ ‘ï¼ˆæ£®æ—ï¼‰å®šä¹‰ã€ç®—æ³•å¼€å§‹----------------------------------------------*/
+/*Ë«Ç×±íÊ¾µÄÊ÷£¨É­ÁÖ£©¶¨Òå¡¢Ëã·¨¿ªÊ¼----------------------------------------------*/
 
 typedef struct pNode
 {
-	datatype data;  //ç»“ç‚¹æ•°æ®åŸŸ
-	int parent;  //çˆ¶ç»“ç‚¹æŒ‡é’ˆï¼ˆä¸‹æ ‡ï¼‰
+	datatype data;  //½áµãÊı¾İÓò
+	int parent;  //¸¸½áµãÖ¸Õë£¨ÏÂ±ê£©
 
-}pTnode;  //åŒäº²è¡¨ç¤ºçš„æ ‘ï¼ˆæ£®æ—ï¼‰ç»“ç‚¹ç»“æ„
+}pTnode;  //Ë«Ç×±íÊ¾µÄÊ÷£¨É­ÁÖ£©½áµã½á¹¹
 
 typedef struct pTree
 {
-	pTnode node[MAXLEN];  //ç»“ç‚¹æ•°ç»„
-	int n;  //ç»“ç‚¹æ€»æ•°
-}pTree;  //åŒäº²è¡¨ç¤ºçš„æ ‘ï¼ˆæ£®æ—ï¼‰
+	pTnode node[MAXLEN];  //½áµãÊı×é
+	int n;  //½áµã×ÜÊı
+}pTree;  //Ë«Ç×±íÊ¾µÄÊ÷£¨É­ÁÖ£©
 
-/*å‡½æ•°å£°æ˜----------------------------------------------------------------------*/
-void Parent_tree_initial(pTree& pT);  			//åˆå§‹åŒ–
-void skip_line(ifstream& file, string& line);	//è·³è¿‡ç©ºè¡Œæ³¨é‡Šè¡Œ
-bool Parent_tree_from_filedata(pTree& pT);		//æ–‡æœ¬æ•°æ®å½•å…¥ï¼Œæ„å»ºåŒäº²è¡¨ç¤ºçš„æ ‘ï¼ˆæ£®æ—ï¼‰
-void Parent_delspace(string& str);				//åˆ é™¤å·¦è¾¹ç©ºæ ¼
+/*º¯ÊıÉùÃ÷----------------------------------------------------------------------*/
+void Parent_tree_initial(pTree& pT);  			//³õÊ¼»¯
+void skip_line(ifstream& file, string& line);	//Ìø¹ı¿ÕĞĞ×¢ÊÍĞĞ
+bool Parent_tree_from_filedata(pTree& pT);		//ÎÄ±¾Êı¾İÂ¼Èë£¬¹¹½¨Ë«Ç×±íÊ¾µÄÊ÷£¨É­ÁÖ£©
+void Parent_delspace(string& str);				//É¾³ı×ó±ß¿Õ¸ñ
 /*-----------------------------------------------------------------------------*/
 
-//åˆå§‹åŒ–
-void Parent_tree_initial(pTree& pT)  //åˆå§‹åŒ–
+//³õÊ¼»¯
+void Parent_tree_initial(pTree& pT)  //³õÊ¼»¯
 {
 	pT.n = 0;
-	cout << "åŒäº²è¡¨ç¤ºåˆå§‹åŒ–æˆåŠŸ..." << endl;
+	cout << "Ë«Ç×±íÊ¾³õÊ¼»¯³É¹¦..." << endl;
 }
 
-//è·³è¿‡ç©ºè¡Œæ³¨é‡Šè¡Œ
+//Ìø¹ı¿ÕĞĞ×¢ÊÍĞĞ
 void skip_line(ifstream& file, string& line)
 {
-	//è·³è¿‡ç©ºè¡Œã€æ³¨é‡Šè¡Œ
+	//Ìø¹ı¿ÕĞĞ¡¢×¢ÊÍĞĞ
 	while ((bool)getline(file, line) != false)
 	{
 		if (line.empty() || line.find("//") != string::npos)
 			continue;
 		else
-			return ;  //éæ³¨é‡Šè¡Œã€éç©ºè¡Œï¼Œè·³å‡ºå¾ªç¯
+			return;  //·Ç×¢ÊÍĞĞ¡¢·Ç¿ÕĞĞ£¬Ìø³öÑ­»·
 	}
-	cout << "æ–‡ä»¶æ•°æ®å‡ºé”™" << endl;
+	cout << "ÎÄ¼şÊı¾İ³ö´í" << endl;
 	file.close();
 }
 
-//åˆ é™¤å·¦è¾¹ç©ºæ ¼
+//É¾³ı×ó±ß¿Õ¸ñ
 void Parent_delspace(string& str)
 {
 	if (str.empty())
-		return ;
-    str.erase(0, str.find_first_not_of(" "));
+		return;
+	str.erase(0, str.find_first_not_of(" "));
 }
 
-//æ–‡æœ¬æ•°æ®å½•å…¥ï¼Œæ„å»ºåŒäº²è¡¨ç¤ºçš„æ ‘ï¼ˆæ£®æ—ï¼‰
-bool Parent_tree_from_filedata(pTree& pT)  //æ–‡æœ¬æ•°æ®å½•å…¥ï¼Œæ„å»ºåŒäº²è¡¨ç¤ºçš„æ ‘ï¼ˆæ£®æ—ï¼‰
+//ÎÄ±¾Êı¾İÂ¼Èë£¬¹¹½¨Ë«Ç×±íÊ¾µÄÊ÷£¨É­ÁÖ£©
+bool Parent_tree_from_filedata(pTree& pT)  //ÎÄ±¾Êı¾İÂ¼Èë£¬¹¹½¨Ë«Ç×±íÊ¾µÄÊ÷£¨É­ÁÖ£©
 {
 	string filename;
-	cout << "è¯·è¾“å…¥æ–‡ä»¶åï¼ˆ#é€€å‡ºï¼‰ï¼š";
+	cout << "ÇëÊäÈëÎÄ¼şÃû£¨#ÍË³ö£©£º";
 	cin >> filename;
 	if (filename == "#")
 		return false;
@@ -76,25 +76,25 @@ bool Parent_tree_from_filedata(pTree& pT)  //æ–‡æœ¬æ•°æ®å½•å…¥ï¼Œæ„å»ºåŒäº²è¡
 	string line;
 	if (!file)
 	{
-		cout << "æ–‡ä»¶æ‰“å¼€å¤±è´¥..."<<endl;
+		cout << "ÎÄ¼ş´ò¿ªÊ§°Ü..." << endl;
 		system("pause");
 		return false;
 	}
 	Parent_tree_initial(pT);
 
-	skip_line(file, line);  //è·³è¿‡
+	skip_line(file, line);  //Ìø¹ı
 
-	//æ£€éªŒæ–‡æœ¬æ ¼å¼
-	while(true)
+	//¼ìÑéÎÄ±¾¸ñÊ½
+	while (true)
 	{
-		if ( line.find("Tree or Forest") == string::npos)  //è·³è¿‡ç©ºè¡Œã€æ³¨é‡Šè¡Œç­‰ 
+		if (line.find("Tree or Forest") == string::npos)  //Ìø¹ı¿ÕĞĞ¡¢×¢ÊÍĞĞµÈ 
 		{
 			if (file.peek() == EOF)
 			{
-				cout << "æ–‡æœ¬é”™è¯¯" << endl;
+				cout << "ÎÄ±¾´íÎó" << endl;
 				file.close();
 				system("pause");
-				return false;			
+				return false;
 			}
 			getline(file, line);
 		}
@@ -102,9 +102,9 @@ bool Parent_tree_from_filedata(pTree& pT)  //æ–‡æœ¬æ•°æ®å½•å…¥ï¼Œæ„å»ºåŒäº²è¡
 			break;
 	}
 
-	skip_line(file, line);  //è·³è¿‡ç©ºè¡Œã€æ³¨é‡Šè¡Œ
+	skip_line(file, line);  //Ìø¹ı¿ÕĞĞ¡¢×¢ÊÍĞĞ
 
-	//å°†ç»“ç‚¹æ•°æ®å­˜å…¥æ ‘çš„ç»“ç‚¹æ•°ç»„
+	//½«½áµãÊı¾İ´æÈëÊ÷µÄ½áµãÊı×é
 	if (file.peek() != EOF)
 	{
 		int length;
@@ -112,22 +112,22 @@ bool Parent_tree_from_filedata(pTree& pT)  //æ–‡æœ¬æ•°æ®å½•å…¥ï¼Œæ„å»ºåŒäº²è¡
 		Parent_delspace(line);
 		for (int i = 0; i < length; i++)
 		{
-			if (line[i] == ' ' || !((line[i] >= 'A' && line[i] <= 'Z') || (line[i] >= 'a' && line[i] <= 'z')))  //ç©ºæ ¼åŠå…¶ä»–éæ³•ç¬¦è·³è¿‡
+			if (line[i] == ' ' || !((line[i] >= 'A' && line[i] <= 'Z') || (line[i] >= 'a' && line[i] <= 'z')))  //¿Õ¸ñ¼°ÆäËû·Ç·¨·ûÌø¹ı
 				continue;
 			pT.node[pT.n].data = line[i];
-			pT.node[pT.n].parent = -1;  //çˆ¶ç»“ç‚¹æŒ‡é’ˆåˆå§‹åŒ–ä¸º-1
+			pT.node[pT.n].parent = -1;  //¸¸½áµãÖ¸Õë³õÊ¼»¯Îª-1
 			pT.n++;
 		}
 	}
 
-	//å¾ªç¯è¯»å–è¾¹ï¼ˆçˆ¶å­é˜Ÿï¼‰æ•°æ®
+	//Ñ­»·¶ÁÈ¡±ß£¨¸¸×Ó¶Ó£©Êı¾İ
 	int np, nc;
 	datatype Nf, Ns;
 	while (file.peek() != EOF)
 	{
 		string::size_type index;
 		getline(file, line);
-		if (line.empty() || line.find("//") != string::npos)  //è·³è¿‡ç©ºè¡Œã€æ³¨é‡Šè¡Œ
+		if (line.empty() || line.find("//") != string::npos)  //Ìø¹ı¿ÕĞĞ¡¢×¢ÊÍĞĞ
 			continue;
 		Parent_delspace(line);
 		index = line.find(" ");
@@ -137,7 +137,7 @@ bool Parent_tree_from_filedata(pTree& pT)  //æ–‡æœ¬æ•°æ®å½•å…¥ï¼Œæ„å»ºåŒäº²è¡
 			line[index - 1] == ' ' ||
 			line[index + 1] == ' ')
 		{
-			cout << "è¾¹æ•°æ®é”™è¯¯" << endl;
+			cout << "±ßÊı¾İ´íÎó" << endl;
 			file.close();
 			system("pause");
 			return false;
@@ -167,59 +167,59 @@ bool Parent_tree_from_filedata(pTree& pT)  //æ–‡æœ¬æ•°æ®å½•å…¥ï¼Œæ„å»ºåŒäº²è¡
 	return true;
 }
 
-/*åŒäº²è¡¨ç¤ºçš„æ ‘ï¼ˆæ£®æ—ï¼‰å®šä¹‰ã€ç®—æ³•ç»“æŸ------------------------------------------------------------------*/
+/*Ë«Ç×±íÊ¾µÄÊ÷£¨É­ÁÖ£©¶¨Òå¡¢Ëã·¨½áÊø------------------------------------------------------------------*/
 
 
 
-/*äºŒå‰é“¾è¡¨è¡¨ç¤ºçš„æ ‘ï¼ˆæ£®æ—ï¼‰å®šä¹‰ã€ç®—æ³•å¼€å§‹--------------------------------------------------------------*/
+/*¶ş²æÁ´±í±íÊ¾µÄÊ÷£¨É­ÁÖ£©¶¨Òå¡¢Ëã·¨¿ªÊ¼--------------------------------------------------------------*/
 
 typedef struct csNode
 {
 	datatype data;
 	struct csNode* firstChild;
 	struct csNode* nextSibling;
-}csNode;  //äºŒå‰é“¾è¡¨è¡¨ç¤ºçš„æ ‘ï¼ˆæ£®æ—ï¼‰ç»“ç‚¹ç»“æ„
+}csNode;  //¶ş²æÁ´±í±íÊ¾µÄÊ÷£¨É­ÁÖ£©½áµã½á¹¹
 
 typedef struct Queue
 {
 	csNode* Q;
 	Queue* next;
-}Queue;  //å­˜å‚¨æ£®æ—ç»“ç‚¹çš„é˜Ÿ
+}Queue;  //´æ´¢É­ÁÖ½áµãµÄ¶Ó
 
 typedef struct
 {
 	Queue* front;
 	Queue* rear;
-}Qpointer;  //é˜Ÿå¤´å°¾æŒ‡é’ˆ
+}Qpointer;  //¶ÓÍ·Î²Ö¸Õë
 
-/*å‡½æ•°å£°æ˜---------------------------------------------------------------------------------------------*/
-void csinitial(csNode*& T);						//åˆå§‹åŒ–
-int firstChild(pTree& pT, int v);		 		//æœç´¢ä¸‹æ ‡ä¸ºvçš„ç»“ç‚¹çš„ç¬¬ä¸€ä¸ªå­©å­ç»“ç‚¹ä¸‹æ ‡
-int next(pTree pT, int w);  					//æœç´¢åŒäº²è¡¨ç¤ºä¸­ï¼Œä¸‹æ ‡wçš„ä¸‹ä¸€ä¸ªå…„å¼Ÿç»“ç‚¹ï¼Œè¿”å›å…„å¼Ÿç»“ç‚¹çš„ä¸‹æ ‡
-void create(csNode*& T, pTree& pT, int v);		//é€’å½’åˆ›å»ºä¸€æ£µå­©å­å…„å¼Ÿé“¾è¡¨è¡¨ç¤ºçš„æ ‘
-void createCsTree(csNode*& T, pTree pT);		//ä»åŒäº²è¡¨ç¤ºçš„æ ‘ï¼ˆæ£®æ—ï¼‰åˆ›å»ºå­©å­å…„å¼Ÿé“¾è¡¨è¡¨ç¤ºçš„æ ‘ï¼ˆæ£®æ—ï¼‰
-void forest_delete(csNode*& T);					//åˆ é™¤æ£®æ—
-void preTravel(csNode*& T);						//å…ˆåºéå†æ£®æ—
-void postTravel(csNode*& T);					//ååºéå†æ£®æ—
+/*º¯ÊıÉùÃ÷---------------------------------------------------------------------------------------------*/
+void csinitial(csNode*& T);						//³õÊ¼»¯
+int firstChild(pTree& pT, int v);		 		//ËÑË÷ÏÂ±êÎªvµÄ½áµãµÄµÚÒ»¸öº¢×Ó½áµãÏÂ±ê
+int next(pTree pT, int w);  					//ËÑË÷Ë«Ç×±íÊ¾ÖĞ£¬ÏÂ±êwµÄÏÂÒ»¸öĞÖµÜ½áµã£¬·µ»ØĞÖµÜ½áµãµÄÏÂ±ê
+void create(csNode*& T, pTree& pT, int v);		//µİ¹é´´½¨Ò»¿Ãº¢×ÓĞÖµÜÁ´±í±íÊ¾µÄÊ÷
+void createCsTree(csNode*& T, pTree pT);		//´ÓË«Ç×±íÊ¾µÄÊ÷£¨É­ÁÖ£©´´½¨º¢×ÓĞÖµÜÁ´±í±íÊ¾µÄÊ÷£¨É­ÁÖ£©
+void forest_delete(csNode*& T);					//É¾³ıÉ­ÁÖ
+void preTravel(csNode*& T);						//ÏÈĞò±éÀúÉ­ÁÖ
+void postTravel(csNode*& T);					//ºóĞò±éÀúÉ­ÁÖ
 
-/*æ£®æ—æ‰€ç”¨é˜Ÿæ„å»ºç®—æ³•åŠå±‚æ¬¡éå†ç®—æ³•---------------------------------------------------------------------*/
-void Queue_initial(Qpointer*& Qp);					//é˜Ÿåˆå§‹åŒ–
-bool Queue_empty(Qpointer*& Qp);					//åˆ¤æ–­é˜Ÿç©º
-void Queue_enter(Qpointer*& Qp, csNode* cp);		//å…¥é˜Ÿ
-void Queue_out(Qpointer*& Qp);						//å‡ºé˜Ÿ
-void Queue_front(Qpointer*& Qp, csNode*& cp);		//å–é˜Ÿå¤´æŒ‡é’ˆ
-void Queue_delete(Qpointer*& Qp);					//é”€æ¯é˜Ÿ
-void levelTravel(csNode*& T);						//å±‚æ¬¡éå†
-/*æ£®æ—æ‰€ç”¨é˜Ÿæ„å»ºç®—æ³•åŠå±‚æ¬¡éå†ç®—æ³•---------------------------------------------------------------------*/
+/*É­ÁÖËùÓÃ¶Ó¹¹½¨Ëã·¨¼°²ã´Î±éÀúËã·¨---------------------------------------------------------------------*/
+void Queue_initial(Qpointer*& Qp);					//¶Ó³õÊ¼»¯
+bool Queue_empty(Qpointer*& Qp);					//ÅĞ¶Ï¶Ó¿Õ
+void Queue_enter(Qpointer*& Qp, csNode* cp);		//Èë¶Ó
+void Queue_out(Qpointer*& Qp);						//³ö¶Ó
+void Queue_front(Qpointer*& Qp, csNode*& cp);		//È¡¶ÓÍ·Ö¸Õë
+void Queue_delete(Qpointer*& Qp);					//Ïú»Ù¶Ó
+void levelTravel(csNode*& T);						//²ã´Î±éÀú
+/*É­ÁÖËùÓÃ¶Ó¹¹½¨Ëã·¨¼°²ã´Î±éÀúËã·¨---------------------------------------------------------------------*/
 
-void Travel(csNode*& T, int choice);			//éå†å‡½æ•°é›†åˆ
-int forest_high(csNode*& T);					//æ±‚æ£®æ—çš„é«˜åº¦
-int forest_count_node(csNode*& T);				//æ±‚æ£®æ—ç»“ç‚¹æ•°
-int forest_count_leaf(csNode*& T);				//æ±‚æ£®æ—å¶å­æ•°
-int forest_dot(csNode*& T, int tag);			//æ±‚æ£®æ—çš„åº¦
-void forest_node_level(csNode*& T, int level);	//å…ˆåºè¾“å‡ºç»“ç‚¹å€¼åŠå…¶å±‚æ¬¡å·
-bool judge(csNode*& T);							//åˆ¤æ–­ç»“ç‚¹æ˜¯å¦åŒæ—¶å…·æœ‰å­ç»“ç‚¹å’Œå…„å¼Ÿç»“ç‚¹
-void forest_general(csNode*& T, int tag);		//è¾“å‡ºå¹¿ä¹‰è¡¨è¡¨ç¤ºçš„æ ‘
+void Travel(csNode*& T, int choice);			//±éÀúº¯Êı¼¯ºÏ
+int forest_high(csNode*& T);					//ÇóÉ­ÁÖµÄ¸ß¶È
+int forest_count_node(csNode*& T);				//ÇóÉ­ÁÖ½áµãÊı
+int forest_count_leaf(csNode*& T);				//ÇóÉ­ÁÖÒ¶×ÓÊı
+int forest_dot(csNode*& T);						//ÇóÉ­ÁÖµÄ¶È
+void forest_node_level(csNode*& T, int level);	//ÏÈĞòÊä³ö½áµãÖµ¼°Æä²ã´ÎºÅ
+bool judge(csNode*& T);							//ÅĞ¶Ï½áµãÊÇ·ñÍ¬Ê±¾ßÓĞ×Ó½áµãºÍĞÖµÜ½áµã
+void forest_general(csNode*& T, int tag);		//Êä³ö¹ãÒå±í±íÊ¾µÄÊ÷
 /*-----------------------------------------------------------------------------------------------------*/
 
 void csinitial(csNode*& T)
@@ -227,7 +227,7 @@ void csinitial(csNode*& T)
 	T = NULL;
 }
 
-//æœç´¢ä¸‹æ ‡ä¸ºvçš„ç»“ç‚¹çš„ç¬¬ä¸€ä¸ªå­©å­ç»“ç‚¹ä¸‹æ ‡
+//ËÑË÷ÏÂ±êÎªvµÄ½áµãµÄµÚÒ»¸öº¢×Ó½áµãÏÂ±ê
 int firstChild(pTree& pT, int v)
 {
 	int w;
@@ -241,7 +241,7 @@ int firstChild(pTree& pT, int v)
 	return -1;
 }
 
-//æœç´¢åŒäº²è¡¨ç¤ºä¸­ï¼Œä¸‹æ ‡wçš„ä¸‹ä¸€ä¸ªå…„å¼Ÿç»“ç‚¹ï¼Œè¿”å›å…„å¼Ÿç»“ç‚¹çš„ä¸‹æ ‡
+//ËÑË÷Ë«Ç×±íÊ¾ÖĞ£¬ÏÂ±êwµÄÏÂÒ»¸öĞÖµÜ½áµã£¬·µ»ØĞÖµÜ½áµãµÄÏÂ±ê
 int next(pTree pT, int w)
 {
 	int i;
@@ -253,7 +253,7 @@ int next(pTree pT, int w)
 	return -1;
 }
 
-//é€’å½’åˆ›å»ºä¸€æ£µå­©å­å…„å¼Ÿé“¾è¡¨è¡¨ç¤ºçš„æ ‘
+//µİ¹é´´½¨Ò»¿Ãº¢×ÓĞÖµÜÁ´±í±íÊ¾µÄÊ÷
 void create(csNode*& T, pTree& pT, int v)
 {
 	int w;
@@ -261,31 +261,31 @@ void create(csNode*& T, pTree& pT, int v)
 	T->data = pT.node[v].data;
 	T->firstChild = NULL;
 	T->nextSibling = NULL;
-	w = firstChild(pT, v);  //æœç´¢vçš„ç¬¬ä¸€ä¸ªå­©å­ç»“ç‚¹
+	w = firstChild(pT, v);  //ËÑË÷vµÄµÚÒ»¸öº¢×Ó½áµã
 	if (w != -1)
 		create(T->firstChild, pT, w);
-	w = next(pT, v);       //æœç´¢vçš„ä¸‹ä¸€ä¸ªå…„å¼Ÿç»“ç‚¹
+	w = next(pT, v);       //ËÑË÷vµÄÏÂÒ»¸öĞÖµÜ½áµã
 	if (w != -1)
 		create(T->nextSibling, pT, w);
 }
 
-//ä»åŒäº²è¡¨ç¤ºçš„æ ‘ï¼ˆæ£®æ—ï¼‰åˆ›å»ºå­©å­å…„å¼Ÿé“¾è¡¨è¡¨ç¤ºçš„æ ‘ï¼ˆæ£®æ—ï¼‰
+//´ÓË«Ç×±íÊ¾µÄÊ÷£¨É­ÁÖ£©´´½¨º¢×ÓĞÖµÜÁ´±í±íÊ¾µÄÊ÷£¨É­ÁÖ£©
 void createCsTree(csNode*& T, pTree pT)
 {
 	int i;
 	csinitial(T);
 
-	//æœç´¢T1çš„ç¬¬ä¸€ä¸ªæ ¹ç»“ç‚¹
+	//ËÑË÷T1µÄµÚÒ»¸ö¸ù½áµã
 	for (i = 0; i < pT.n; i++)
 	{
-		if (pT.node[i].parent == -1)   //æ‰¾åˆ°ç¬¬ä¸€ä¸ªæ ¹ç»“ç‚¹
+		if (pT.node[i].parent == -1)   //ÕÒµ½µÚÒ»¸ö¸ù½áµã
 			break;
 	}
 	if (i < pT.n)
 		create(T, pT, i);
 }
 
-//åˆ é™¤æ£®æ—
+//É¾³ıÉ­ÁÖ
 void forest_delete(csNode*& T)
 {
 	if (T != NULL)
@@ -297,7 +297,7 @@ void forest_delete(csNode*& T)
 	}
 }
 
-//å…ˆåºéå†æ£®æ—
+//ÏÈĞò±éÀúÉ­ÁÖ
 void preTravel(csNode*& T)
 {
 	if (T != NULL)
@@ -308,7 +308,7 @@ void preTravel(csNode*& T)
 	}
 }
 
-//ååºéå†æ£®æ—
+//ºóĞò±éÀúÉ­ÁÖ
 void postTravel(csNode*& T)
 {
 	if (T != NULL)
@@ -320,9 +320,9 @@ void postTravel(csNode*& T)
 }
 
 
-/*æ£®æ—æ‰€ç”¨é˜Ÿæ„å»ºç®—æ³•åŠå±‚æ¬¡éå†ç®—æ³•å¼€å§‹---------------------------------------------------------------------*/
+/*É­ÁÖËùÓÃ¶Ó¹¹½¨Ëã·¨¼°²ã´Î±éÀúËã·¨¿ªÊ¼---------------------------------------------------------------------*/
 
-//é˜Ÿåˆå§‹åŒ–
+//¶Ó³õÊ¼»¯
 void Queue_initial(Qpointer*& Qp)
 {
 	Qp = new Qpointer;
@@ -330,7 +330,7 @@ void Queue_initial(Qpointer*& Qp)
 	Qp->rear = NULL;
 }
 
-//åˆ¤æ–­é˜Ÿç©º
+//ÅĞ¶Ï¶Ó¿Õ
 bool Queue_empty(Qpointer*& Qp)
 {
 	if (Qp->front == NULL && Qp->rear == NULL)
@@ -339,8 +339,8 @@ bool Queue_empty(Qpointer*& Qp)
 		return false;
 }
 
-//å…¥é˜Ÿ
-void Queue_enter(Qpointer*& Qp,  csNode* cp)
+//Èë¶Ó
+void Queue_enter(Qpointer*& Qp, csNode* cp)
 {
 	if (cp == NULL)
 		return;
@@ -361,7 +361,7 @@ void Queue_enter(Qpointer*& Qp,  csNode* cp)
 	}
 }
 
-//å‡ºé˜Ÿ
+//³ö¶Ó
 void Queue_out(Qpointer*& Qp)
 {
 	if (!Queue_empty(Qp))
@@ -375,7 +375,7 @@ void Queue_out(Qpointer*& Qp)
 	}
 }
 
-//å–é˜Ÿå¤´æŒ‡é’ˆ
+//È¡¶ÓÍ·Ö¸Õë
 void Queue_front(Qpointer*& Qp, csNode*& cp)
 {
 	if (!Queue_empty(Qp))
@@ -386,7 +386,7 @@ void Queue_front(Qpointer*& Qp, csNode*& cp)
 		cp = NULL;
 }
 
-//é”€æ¯é˜Ÿ
+//Ïú»Ù¶Ó
 void Queue_delete(Qpointer*& Qp)
 {
 	while (Qp != NULL && Qp->front != NULL)
@@ -402,12 +402,12 @@ void Queue_delete(Qpointer*& Qp)
 	}
 }
 
-//å±‚æ¬¡éå†æ£®æ—ï¼ˆåˆ©ç”¨é˜Ÿï¼‰
+//²ã´Î±éÀúÉ­ÁÖ£¨ÀûÓÃ¶Ó£©
 void levelTravel(csNode*& T)
 {
 	if (T == NULL)
 	{
-		return ;
+		return;
 	}
 	csNode* cp;
 	Qpointer* Qp;
@@ -430,38 +430,38 @@ void levelTravel(csNode*& T)
 	Queue_delete(Qp);
 }
 
-/*æ£®æ—æ‰€ç”¨é˜Ÿæ„å»ºç®—æ³•åŠå±‚æ¬¡éå†ç®—æ³•ç»“æŸ-----------------------------------------------------------------*/
+/*É­ÁÖËùÓÃ¶Ó¹¹½¨Ëã·¨¼°²ã´Î±éÀúËã·¨½áÊø-----------------------------------------------------------------*/
 
 
-//éå†å‡½æ•°é›†åˆ
+//±éÀúº¯Êı¼¯ºÏ
 void Travel(csNode*& T, int choice)
 {
 	switch (choice)
 	{
-		case 1:
-		{
-			cout << "å…ˆåºéå†æ£®æ—" << endl;
-			preTravel(T);
-			cout<<endl;
-			break;
-		}
-		case 2:
-		{
-			cout << "ååºéå†æ£®æ—" << endl;
-			postTravel(T);
-			cout<<endl;
-			break;
-		}
-		case 3:
-		{
-			cout << "å±‚æ¬¡éå†æ£®æ—" << endl;
-			levelTravel(T);
-			cout<<endl;
-		}
+	case 1:
+	{
+		cout << "ÏÈĞò±éÀúÉ­ÁÖ" << endl;
+		preTravel(T);
+		cout << endl;
+		break;
+	}
+	case 2:
+	{
+		cout << "ºóĞò±éÀúÉ­ÁÖ" << endl;
+		postTravel(T);
+		cout << endl;
+		break;
+	}
+	case 3:
+	{
+		cout << "²ã´Î±éÀúÉ­ÁÖ" << endl;
+		levelTravel(T);
+		cout << endl;
+	}
 	}
 }
 
-//æ±‚æ£®æ—çš„é«˜åº¦
+//ÇóÉ­ÁÖµÄ¸ß¶È
 int forest_high(csNode*& T)
 {
 	int h1 = 0;
@@ -476,63 +476,70 @@ int forest_high(csNode*& T)
 	return h1;
 }
 
-//æ±‚æ£®æ—ç»“ç‚¹æ•°
+//ÇóÉ­ÁÖ½áµãÊı
 int forest_count_node(csNode*& T)
 {
 	int Count = 0;
 	if (T != NULL)
 	{
-		Count = forest_count_node(T->firstChild);  //ç®—å‡ºå­æ£®æ—ç»“ç‚¹æ•°
-		Count = Count + forest_count_node(T->nextSibling);  //åŠ ä¸ŠåŒå±‚ç»“ç‚¹æ£®æ—ç»“ç‚¹æ•°
-		Count++;  //åŠ ä¸Šè‡ªèº«ç»“ç‚¹
+		Count = forest_count_node(T->firstChild);  //Ëã³ö×ÓÉ­ÁÖ½áµãÊı
+		Count = Count + forest_count_node(T->nextSibling);  //¼ÓÉÏÍ¬²ã½áµãÉ­ÁÖ½áµãÊı
+		Count++;  //¼ÓÉÏ×ÔÉí½áµã
 	}
 	return Count;
 }
 
-//æ±‚æ£®æ—å¶å­æ•°
+//ÇóÉ­ÁÖÒ¶×ÓÊı
 int forest_count_leaf(csNode*& T)
 {
 	int leaf_num = 0;
 	if (T != NULL)
 	{
-		leaf_num = forest_count_leaf(T->firstChild);  //ç®—å‡ºå­æ ‘çš„å¶å­æ•°
-		leaf_num = leaf_num + forest_count_leaf(T->nextSibling);  //åŠ ä¸ŠåŒå±‚ç»“ç‚¹æ ‘å¶å­æ•°
-		if (T->firstChild == NULL)  //æ— å­©å­ç»“ç‚¹ï¼Œå¶å­æ•°+1
+		leaf_num = forest_count_leaf(T->firstChild);  //Ëã³ö×ÓÊ÷µÄÒ¶×ÓÊı
+		leaf_num = leaf_num + forest_count_leaf(T->nextSibling);  //¼ÓÉÏÍ¬²ã½áµãÊ÷Ò¶×ÓÊı
+		if (T->firstChild == NULL)  //ÎŞº¢×Ó½áµã£¬Ò¶×ÓÊı+1
 			leaf_num++;
 	}
 	return leaf_num;
 }
 
-//æ±‚æ£®æ—çš„åº¦
-int forest_dot(csNode*& T, int tag)  //tagåˆå§‹å€¼ä¸º0ï¼Œå½“tagä¸º0æ—¶ä»£è¡¨å½“å‰ç»“ç‚¹æ˜¯æ ¹ç»“ç‚¹
+//ÇóÉ­ÁÖµÄ¶È
+int forest_dot(csNode*& T)
 {
-	int dot = 0;
+	int dot1 = 0;  //µ±Ç°½áµã¶ÈÊı 
+	int dot2 = 0;  //º¢×Ó½áµãÖĞ¶ÈÊı×î´óÖµ 
+	int dot3 = 0;  //ĞÖµÜ½áµã¶ÈÊı 
+	csNode* p;
 	if (T != NULL)
 	{
-		if (T->firstChild != NULL)
+		p = T->firstChild;
+		while (p != NULL)  //Ëã³öµ±Ç°½áµãµÄ¶ÈÊı
 		{
-			dot = forest_dot(T->firstChild, 1) + 1;
+			dot1++;
+			p = p->nextSibling;
 		}
-		if (T->nextSibling != NULL)
-		{
-			dot = dot + forest_dot(T->nextSibling, tag) + tag;  //å­æ ‘åº¦æ•°åŠ ä¸Šå…„å¼Ÿç»“ç‚¹æ ‘åº¦æ•°
-		}
+		dot2 = forest_dot(T->firstChild);  //Ëã³ö×Ó½áµãÖĞ×î´óµÄ¶ÈÊı
+		dot3 = forest_dot(T->nextSibling);  //Ëã³öĞÖµÜ½áµãµÄ¶ÈÊı
+		if (dot1 < dot2)
+			dot1 = dot2;
+		if (dot1 < dot3)
+			dot1 = dot3;  //ÕÒµ½ÈıÕß×î´óÖµ 
 	}
-	return dot;
+	return dot1;  //·µ»ØÊ÷»òÉ­ÁÖµÄ¶ÈÊı
 }
 
-//å…ˆåºè¾“å‡ºç»“ç‚¹å€¼åŠå…¶å±‚æ¬¡å·
+//ÏÈĞòÊä³ö½áµãÖµ¼°Æä²ã´ÎºÅ
 void forest_node_level(csNode*& T, int level)
 {
 	if (T != NULL)
 	{
 		cout << "(" << T->data << "," << level << "), ";
-		forest_node_level(T->firstChild, level + 1);  //å­ç»“ç‚¹ä¸ºäºŒå‰é“¾è¡¨çˆ¶ç»“ç‚¹ä¸‹ä¸€å±‚
-		forest_node_level(T->nextSibling, level);  //å…„å¼Ÿç»“ç‚¹ä¸äºŒå‰é“¾è¡¨çˆ¶ç»“ç‚¹åŒå±‚
+		forest_node_level(T->firstChild, level + 1);  //×Ó½áµãÎª¶ş²æÁ´±í¸¸½áµãÏÂÒ»²ã
+		forest_node_level(T->nextSibling, level);  //ĞÖµÜ½áµãÓë¶ş²æÁ´±í¸¸½áµãÍ¬²ã
 	}
 }
 
-//åˆ¤æ–­ç»“ç‚¹æ˜¯å¦åŒæ—¶å…·æœ‰å­ç»“ç‚¹å’Œå…„å¼Ÿç»“ç‚¹
+//ÅĞ¶Ï½áµãÊÇ·ñÍ¬Ê±¾ßÓĞ×Ó½áµãºÍĞÖµÜ½áµã
 bool judge(csNode*& T)
 {
 	if (T != NULL)
@@ -543,34 +550,34 @@ bool judge(csNode*& T)
 	return false;
 }
 
-//å¹¿ä¹‰æ ‘ 
-void forest_general(csNode*& T, int tag)  //tagç»™åˆå€¼1ï¼Œ0ä»£è¡¨ç¬¬ä¸€ä¸ªå­ç»“ç‚¹ï¼Œ1ä»£è¡¨å…„å¼Ÿç»“ç‚¹
+//¹ãÒåÊ÷ 
+void forest_general(csNode*& T, int tag)  //tag¸ø³õÖµ1£¬0´ú±íµÚÒ»¸ö×Ó½áµã£¬1´ú±íĞÖµÜ½áµã
 {
 	if (T != NULL)
 	{
-		if (T->firstChild != NULL || tag == 0)  //ç»“ç‚¹æœ‰å­ç»“ç‚¹æˆ–ç»“ç‚¹ä¸ºç¬¬ä¸€ä¸ªå­ç»“ç‚¹åˆ™å°†å…¶æ‰“åŒ…
+		if (T->firstChild != NULL || tag == 0)  //½áµãÓĞ×Ó½áµã»ò½áµãÎªµÚÒ»¸ö×Ó½áµãÔò½«Æä´ò°ü
 			cout << "(";
 		cout << T->data;
-		if (T->firstChild != NULL)  //è¾“å‡ºå­æ£®æ—ç»“ç‚¹
+		if (T->firstChild != NULL)  //Êä³ö×ÓÉ­ÁÖ½áµã
 		{
 			cout << ",";
-			if (judge(T->firstChild) == true)  //è‹¥æ˜¯ç¬¬ä¸€ä¸ªå­ç»“ç‚¹æœ‰å­ç»“ç‚¹å’Œå…„å¼Ÿç»“ç‚¹åˆ™è¯¥ç»“ç‚¹å’Œå…„å¼Ÿç»“ç‚¹è¦æ‰“åŒ…
+			if (judge(T->firstChild) == true)  //ÈôÊÇµÚÒ»¸ö×Ó½áµãÓĞ×Ó½áµãºÍĞÖµÜ½áµãÔò¸Ã½áµãºÍĞÖµÜ½áµãÒª´ò°ü
 				cout << "(";
 			forest_general(T->firstChild, 0);
-			if (judge(T->firstChild) == true)  //ç¬¬ä¸€ä¸ªå­ç»“ç‚¹æœ‰å­ç»“ç‚¹å’Œå…„å¼Ÿç»“ç‚¹éœ€è¦çš„â€œï¼‰â€
+			if (judge(T->firstChild) == true)  //µÚÒ»¸ö×Ó½áµãÓĞ×Ó½áµãºÍĞÖµÜ½áµãĞèÒªµÄ¡°£©¡±
 				cout << ")";
-			cout << ")";  //æœ‰å­ç»“ç‚¹å¿…è¦çš„â€œï¼‰â€
-		}	
-		if (T->nextSibling != NULL)  //è¾“å‡ºåŒå±‚ç»“ç‚¹æ£®æ—
+			cout << ")";  //ÓĞ×Ó½áµã±ØÒªµÄ¡°£©¡±
+		}
+		if (T->nextSibling != NULL)  //Êä³öÍ¬²ã½áµãÉ­ÁÖ
 		{
 			cout << ", ";
 			forest_general(T->nextSibling, 1);
 		}
-		if (T->firstChild == NULL && tag == 0)  //æ‰“åŒ…ç¬¬ä¸€ä¸ªæ— å­çš„å­ç»“ç‚¹åŠå…¶å…„å¼Ÿç»“ç‚¹
+		if (T->firstChild == NULL && tag == 0)  //´ò°üµÚÒ»¸öÎŞ×ÓµÄ×Ó½áµã¼°ÆäĞÖµÜ½áµã
 			cout << ")";
 	}
 }
 
-/*äºŒå‰é“¾è¡¨è¡¨ç¤ºçš„æ ‘ï¼ˆæ£®æ—ï¼‰å®šä¹‰ã€ç®—æ³•ç»“æŸ-------------------------------------------------------------*/
+/*¶ş²æÁ´±í±íÊ¾µÄÊ÷£¨É­ÁÖ£©¶¨Òå¡¢Ëã·¨½áÊø-------------------------------------------------------------*/
 
 #endif
